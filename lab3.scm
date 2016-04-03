@@ -25,16 +25,25 @@
 ))
 
 ;Set? function:
-;(define (set? list)
-
-;)
+(define (set? list)
+(cond
+	((null? list) #t)
+	((not (not (member? (car list) (cdr list)))) #f)
+	(else (set? (cdr list)))
+))
 
 ;Testing:
-;(display (set? (x y z))); −→ #t
-;(display (set? (a 1 b 2 c 3))); −→ #t
-;(display (set? ())); −→ #t; empty set is a set
-;(display (set? (a b b c 3))); −→ #f; duplicate, bad set
-;(display (set? (5 9 7 1 5))); −→ #f; duplicate, bad set
+(display "Testing set?:\n")
+(display (set? '(x y z))); −→ #t
+(display " should be true\n")
+(display (set? '(a 1 b 2 c 3))); −→ #t
+(display " should be true\n")
+(display (set? '())); −→ #t; empty set is a set
+(display " should be true\n")
+(display (set? '(a b b c 3))); −→ #f; duplicate, bad set
+(display " should be false\n")
+(display (set? '(5 9 7 1 5))); −→ #f; duplicate, bad set
+(display " should be false\n\n")
 
 ;Union function:
 ;(define (union list1 list2)
@@ -59,10 +68,10 @@
 (display (member? 'd '(a b c d c b a)))
 
 (display "\n8. ")
-;(display (set? '(a b c d c b a)))
+(display (set? '(a b c d c b a)))
 
 (display "\n9. ")
-;(display (set? '(it was the best of times, it was the worst of times)))
+(display (set? '(it was the best of times, it was the worst of times)))
 
 (display "\n10. ")
 ;(display (union '(blue eggs and cheese) '(ham and sandwich)))
