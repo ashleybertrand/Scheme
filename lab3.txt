@@ -1,0 +1,26 @@
+Ashley Bertrand
+Megan Weller
+Lab 3 Questions
+
+1. (3 8 9 2 4 10)
+2. Function f adds 1 to each element in the provided list and returns the new list.
+3. A check to see if list is null
+4. If list is null, continue as if it were an empty list
+5. Build a list of the current list, adding 1 to the first element, combined with 
+the list recursively called on f without the first element
+6. #f
+7. #t
+8. #f
+9. #f
+10. (sandwich ham blue eggs and cheese)
+11. (blue cheese and)
+12. Scheme is a great language for mathematical function evaluation and list 
+manipulation.  There are many built-in functions that would make it quick and easy 
+to implement member?, set?, union, and intersect, had we been allowed to use them.
+13. The syntax looks much different from the object-oriented programming that I am 
+used to, which made it difficult to learn and work with.
+14. 5 hours
+15. I enjoyed this lab because it was interesting learning a different class of 
+programming languages.  I probably will not use Scheme again unless it is required 
+because I am much more comfortable with object-oriented programming which can also be 
+used to solve these same problems using a syntax that is much more readable.
