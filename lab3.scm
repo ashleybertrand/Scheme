@@ -4,11 +4,11 @@
 
 ;Warmup:
 (define (f list)
-	; (a) ;
+	;a check to see if list is null
     (if (null? list)
-        ; (b) ;
+        ;if list is null, continue as if it were an empty list
         '()
-        ; (c) ;
+        ;Build a list of the current list, adding 1 to the first element, combined with the list recursively called on f without the first element
         (cons (+ 1 (car list)) (f (cdr list)))))
 
 ;Member? function:
@@ -52,44 +52,106 @@
 
 ;Union function:
 (define (union list1 list2)
-;CHECK IF VALID INPUT (list1 and list2 must be sets)
-;IF NOT VALID, PRINT ERROR MESSAGE, REMOVE DUPLICATES, CALL union ON NEW LISTS
+	;For a valid input, list1 and list2 must be sets
+	;If not valid, print error message, remove duplicates, call union on new lists
+	;list1 contains duplicates
+	(if (not (valid? list1))
+	    ;print error message until list1 is a set
+		(display "List1 is not a valid set. Duplicates will be removed and intersect will be called on the re-defined list.\n")
+	)
 
-(cond
-	;if list2 is null, continue using list1
-    ((null? list2) list1)
+	;list2 contains duplicates
+	(if (not (valid? list2))
+	    ;print error message until list2 is a set
+		(display "List2 is not a valid set. Duplicates will be removed and intersect will be called on the re-defined list.\n")
+	)
+
+	;re-lable list1 to new_list1 and list2 to new_list2 where duplicates are removed if they existed
+	(let ((new_list1 (delete list1)))
+    	(let ((new_list2 (delete list2)))
+    	    (cond
+				;if list2 is null, continue using list1
+    			((null? list2) list1)
     
-    ;checking if the first element in list2 is in list1  
-	((member? (car list2) list1)
+    			;checking if the first element in list2 is in list1  
+				((member? (car list2) list1)
 	          
-	;recursively calling union on list1 and list2 without the first element
-    (union list1 (cdr list2)))
+				;recursively calling union on list1 and list2 without the first element
+    			(union list1 (cdr list2)))
    
-    ;combine the first element of list2 with list1
-    ;recursively call union on this list with list2 without the first element
-    (#t (union (cons (car list2) list1) (cdr list2))) 
-))
+    			;combine the first element of list2 with list1
+    			;recursively call union on this list with list2 without the first element
+    			(#t (union (cons (car list2) list1) (cdr list2))) 
+			)
+    	)
+	)
+)
 
 ;Intersect function:
 (define (intersect list1 list2)
-;CHECK IF VALID INPUT (list1 and list2 must be sets)
-;IF NOT VALID, PRINT ERROR MESSAGE, REMOVE DUPLICATES, CALL intersect ON NEW LISTS	
+	;For a valid input, list1 and list2 must be sets
+	;If not valid, print error message, remove duplicates, call intersect on new lists
+	;list1 contains duplicates
+	(if (not (valid? list1))
+	    ;print error message until list1 is a set
+		(display "List1 is not a valid set. Duplicates will be removed and intersect will be called on the re-defined list.\n")
+	)
 
-;if list1 is null, continue as if it were an empty list
-(if (null? list1) '()
-    ;checking if the first element in list1 is in list2
-    (let ((included (member? (car list1) list2)))
+	;list2 contains duplicates
+	(if (not (valid? list2))
+	    ;print error message until list2 is a set
+		(display "List2 is not a valid set. Duplicates will be removed and intersect will be called on the re-defined list.\n")
+	)
+
+	;re-lable list1 to new_list1 and list2 to new_list2 where duplicates are removed if they existed
+	(let ((new_list1 (delete list1)))
+    	(let ((new_list2 (delete list2)))
+    		;if list1 is null, continue as if it were an empty list
+			(if (null? new_list1) '()
+    			;checking if the first element in list1 is in list2
+    			(let ((included (member? (car new_list1) new_list2)))
     
-    ;if null, continue using list1 without its first element
-    (if (null? (cdr list1))
-        (if included list1 '())
-        (if included
-            ;recursively call intersect on list1 without the first element and list2
-            ;combine this result with the first element from list1
-            (cons (car list1) (intersect (cdr list1) list2))
+    			;if null, continue using list1 without its first element
+    			(if (null? (cdr new_list1))
+        			(if included new_list1 '())
+        			(if included
+            			;recursively call intersect on list1 without the first element and list2
+            			;combine this result with the first element from list1
+            			(cons (car new_list1) (intersect (cdr new_list1) new_list2))
             
-            ;recursively call intersect on list1 without the first element and list2
-            (intersect (cdr list1) list2))))	
+            			;recursively call intersect on list1 without the first element and list2
+            			(intersect (cdr new_list1) new_list2))))	
+			)
+		)	
+	)
+)
+
+;checks if the provided list is a valid set
+(define (valid? list)
+(cond
+	;if list is null, return true
+    ((null? list) #t)
+    
+    ;checking to see if list is a set
+    ((set? list) list)
+    
+    ;list contains duplicates and is therefore not a set
+    (else (display "Invalid input.\n") #f)
+))
+
+;removes duplicates from a list to form a set
+(define (delete list)
+(cond
+	;if list is null, continue with empty list
+    ((null? list) '() )
+    
+    ;checking to see if the first element in list is in list somewhere later on
+    ;recursively call delete on list without the first element of list
+    ((member? (car list) (cdr list)) (delete(cdr list)))
+    
+    ;recursively call delete on list without the first element of list
+    ;combine this result with the first element  of list
+    (else (cons (car list) (delete (cdr list))))
 ))
 
 ;Lab Questions:
