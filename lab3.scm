@@ -154,6 +154,26 @@
     (else (cons (car list) (delete (cdr list))))
 ))
 
+(define (valid? list)
+(cond
+    ((null? list) #t)
+    
+    ((set? list) list)
+    
+    (else (display "\n Error. Duplicate in set, will redo set\n") #f)
+        
+))
+
+(define (delete list)
+(cond
+    ((null? list) '() )
+    
+    ((member? (car list) (cdr list)) (delete(cdr list)))
+    
+    (else (cons (car list) (delete (cdr list))))
+    
+))
+
 ;Lab Questions:
 (display "Lab Questions:")
 
